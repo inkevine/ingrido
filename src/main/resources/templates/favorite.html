@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipiz Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-cherry: #B71C1C;
+            --dark-cherry: #7F0000;
+            --light-cherry: #FFCDD2;
+            --accent-cherry: #D32F2F;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Top Navbar Styles */
+        .top-navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .brand-name {
+            color: var(--primary-cherry);
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-decoration: none;
+        }
+
+        .brand-name:hover {
+            color: var(--dark-cherry);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .search-input {
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-cherry);
+            box-shadow: 0 0 0 0.2rem rgba(183, 28, 28, 0.25);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-cherry);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-cherry);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .profile-icon:hover {
+            background-color: var(--primary-cherry);
+            color: white;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            height: 100%;
+            width: 60px; /* Reduced width for icons only */
+            position: fixed;
+            z-index: 1;
+            top: 0px; /* Adjusted to account for navbar height */
+            left: 0;
+            background-color: var(--primary-cherry);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 20px;
+            white-space: nowrap;
+        }
+
+        .sidebar a {
+            padding: 12px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .sidebar a:hover {
+            color: white;
+            background-color: var(--dark-cherry);
+        }
+
+        .material-icons {
+            margin-right: 15px;
+        }
+
+        .icon-text {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* When sidebar is expanded */
+        .sidebar.expanded .icon-text {
+            opacity: 1;
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 20px;
+            margin-left: 60px; /* Adjusted to match sidebar width */
+            margin-top: 60px; /* Adjusted to account for navbar height */
+        }
+
+        /* Card Styles */
+        .content-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-card h2 {
+            color: var(--primary-cherry);
+            margin-bottom: 15px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .search-container {
+                max-width: 200px;
+            }
+        }
+        .custom-carousel {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-image-container {
+            height: 250px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f8f8;
+        }
+
+        .carousel-image-container img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+
+
+        .amazon-deals-header i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .amazon-deals-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+
+
+
+        .feature-item i {
+            color: var(--primary-cherry);
+            margin-right: 6px;
+        }
+
+
+        .btn-cherry {
+            background-color: var(--primary-cherry);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .btn-cherry:hover {
+            background-color: var(--dark-cherry);
+            color: white;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991px) {
+            .amazon-deals-container {
+                margin-top: 20px;
+                border-left: none;
+                border-right: none;
+                border-bottom: none;
+                border-top: 4px solid var(--primary-cherry);
+            }
+        }
+
+        .recipe-card {
+            border-radius: 10px 10px 4px 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-item {
+            background-color: var(--light-cherry);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .category-item:hover {
+            transform: scale(1.05);
+            background-color: var(--primary-cherry);
+            color: white;
+        }
+
+        .recipe-badge {
+            border: 2px solid #7F0000;
+            color: var(--primary-cherry);
+        }
+
+        .recipe-time {
+            color: var(--dark-cherry);
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+<!-- Top Navbar -->
+<!--<div class="top-navbar d-flex align-items-center justify-content-between">-->
+<!--    <a href="#" class="brand-name d-flex align-items-center">-->
+<!--        <i class="fas fa-utensils me-2"></i>Recipiz-->
+<!--    </a>-->
+
+<!--    <div class="profile-icon">-->
+<!--        <i class="fas fa-user"></i>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!-- Sidebar -->
+<div id="mySidebar" class="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
+    <a href="#">
+        <i class="material-icons">dashboard</i>
+        <span class="icon-text">Dashboard</span>
+    </a>
+    <a href="/myrecipes">
+        <i class="material-icons">restaurant_menu</i>
+        <span class="icon-text">My Recipes</span>
+    </a>
+    <a href="/favorites">
+        <i class="material-icons">favorite</i>
+        <span class="icon-text">Favorites</span>
+    </a>
+    <a href="#">
+        <i class="material-icons">live_help</i>
+        <span class="icon-text">Ask Ai</span>
+    </a>
+    <a href="#">
+        <i class="material-icons">settings</i>
+        <span class="icon-text">Settings</span>
+    </a>
+</div>
+
+<!-- Main Content -->
+<div id="main">
+    <div class="content-card">
+        <div class="row">
+            <div class="col-9">
+                <h2 class="fs-5">My Favorite recipes</h2>
+            </div>
+            <div class="col-3">
+                <form action="/index" method="get" class="d-flex">
+                    <select name="category" class="form-select cherry-select me-2 py-1">
+                        <option value="">All Categories</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Snack">Snack</option>
+                        <option value="Dessert">Dessert</option>
+                    </select>
+                    <button type="submit" class="btn btn-cherry">
+                        Filter
+                    </button>
+                </form>
+            </div>
+
+        </div>
+        <section class="container my-5">
+
+            <div class="row">
+                <!-- Recipe Card 1 -->
+                <div class="col-md-4" th:each="recipe, iterStat : ${recipes}">
+                    <div class="recipe-card">
+
+                        <img th:src="${recipe.imageUrl}" alt="Recipe Image" class="card-img-top recipe-img" th:if="${recipe.imageUrl}">
+                        <div th:unless="${recipe.imageUrl}" class="no-image-container text-center py-5 bg-light">
+                            <i class="fas fa-camera no-image-icon" style="font-size: 2rem;"></i>
+                            <p class="text-muted small mb-0">No image available</p>
+                        </div>
+                        <div class="card-body">
+                            <span class="badge recipe-badge mb-2" th:text="${recipe.category}">Category</span>
+                            <h5 class="card-title" th:text="${recipe.title}">Title</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="recipe-time">
+                        <i class="far fa-clock me-1"></i>
+                        <span th:text="${recipe.cookingTime}+' mins'">45 mins</span>
+                    </span>
+                                <!--                            <span>-->
+                                <!--                        <i class="fas fa-star" style="color: #FFD700;"></i>-->
+                                <!--                        <span th:text="${recipe.rating != null ? recipe.rating : '4.9'}">4.9</span>-->
+                                <!--                    </span>-->
+                            </div>
+                            <p class="card-text" th:text="${recipe.description}">Description...</p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-cherry">View Recipe</button>
+                                <a th:href="@{|/favorite/${recipe.id}|}" class="btn btn-sm btn-outline-secondary" th:classappend="${recipe.favorite} ? ' fas text-danger' : ' far text-dark'">
+                                    <i class="fa-solid fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center py-5" th:if="${#lists.isEmpty(recipes)}">
+                        <div class="mb-4">
+                            <i class="fas fa-book text-muted" style="font-size: 5rem;"></i>
+                        </div>
+                        <h3 class="text-muted">No recipes found</h3>
+                        <p class="text-muted mb-4">Save recipes!</p>
+                        <a href="/add" class="btn btn-lg btn-add">
+                            <i class="fas fa-plus me-2"></i> Add Your First Recipe
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function expandSidebar() {
+        document.getElementById("mySidebar").style.width = "200px";
+        document.getElementById("mySidebar").classList.add("expanded");
+        document.getElementById("main").style.marginLeft = "200px";
+    }
+
+    function collapseSidebar() {
+        document.getElementById("mySidebar").style.width = "60px";
+        document.getElementById("mySidebar").classList.remove("expanded");
+        document.getElementById("main").style.marginLeft = "60px";
+    }
+
+
+</script>
+</body>
+</html>

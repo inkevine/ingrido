@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipiz - Recipe Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-cherry: #B71C1C;
+            --dark-cherry: #7F0000;
+            --light-cherry: #FFCDD2;
+            --accent-cherry: #D32F2F;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: var(--primary-cherry);
+        }
+
+        .btn-cherry {
+            background-color: var(--primary-cherry);
+            border-color: var(--primary-cherry);
+            color: white;
+        }
+
+        .btn-cherry:hover {
+            background-color: var(--dark-cherry);
+            border-color: var(--dark-cherry);
+            color: white;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 30px;
+        }
+
+        .recipe-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-item {
+            background-color: var(--light-cherry);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .category-item:hover {
+            transform: scale(1.05);
+            background-color: var(--primary-cherry);
+            color: white;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            color: var(--dark-cherry);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-cherry);
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .newsletter-section {
+            background-color: var(--light-cherry);
+            padding: 50px 0;
+        }
+
+        .recipe-badge {
+            background-color: var(--primary-cherry);
+            color: white;
+        }
+
+        .recipe-time {
+            color: var(--dark-cherry);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#" style="font-weight: 700; font-size: 1.8rem;">
+            <i class="fas fa-utensils me-2"></i>Recipiz
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Recipes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">My Collection</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+            </ul>
+            <div class="d-flex ms-3">
+                <a href="req/login"><button class="btn btn-light me-2">Login</button></a>
+                <a href="req/signup"><button class="btn btn-outline-light">Sign Up</button></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section text-center">
+    <div class="container">
+        <h1 style="font-size: 3.5rem; font-weight: 800;">Discover & Organize Your Favorite Recipes</h1>
+        <p class="lead my-4" style="font-size: 1.3rem;">Store, search, and share your culinary creations with Recipiz</p>
+        <div class="d-flex justify-content-center">
+            <div class="input-group mb-3 mx-auto" style="max-width: 600px;">
+                <input type="text" class="form-control form-control-lg" placeholder="Search for recipes...">
+                <button class="btn btn-cherry btn-lg" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button class="btn btn-cherry btn-lg me-3">
+                <i class="fas fa-plus-circle me-2"></i>Add Recipe
+            </button>
+            <button class="btn btn-outline-light btn-lg">
+                <i class="fas fa-book me-2"></i>Browse Collection
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Recipes Section -->
+<section class="container my-5">
+    <h2 class="section-title">Featured Recipes</h2>
+    <div class="row">
+        <!-- Recipe Card 1 -->
+        <div class="col-md-4">
+            <div class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Pasta Dish" class="card-img-top recipe-img">
+                <div class="card-body">
+                    <span class="badge recipe-badge mb-2">Italian</span>
+                    <h5 class="card-title">Creamy Garlic Parmesan Pasta</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="recipe-time"><i class="far fa-clock me-1"></i> 30 mins</span>
+                        <span><i class="fas fa-star" style="color: #FFD700;"></i> 4.8</span>
+                    </div>
+                    <p class="card-text">A delicious pasta dish with creamy garlic parmesan sauce that's perfect for weeknight dinners.</p>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-sm btn-cherry">View Recipe</button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recipe Card 2 -->
+        <div class="col-md-4">
+            <div class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Pizza" class="card-img-top recipe-img">
+                <div class="card-body">
+                    <span class="badge recipe-badge mb-2">Italian</span>
+                    <h5 class="card-title">Homemade Margherita Pizza</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="recipe-time"><i class="far fa-clock me-1"></i> 45 mins</span>
+                        <span><i class="fas fa-star" style="color: #FFD700;"></i> 4.9</span>
+                    </div>
+                    <p class="card-text">Classic Margherita pizza with fresh basil, mozzarella, and a perfect thin crust.</p>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-sm btn-cherry">View Recipe</button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recipe Card 3 -->
+        <div class="col-md-4">
+            <div class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Salad" class="card-img-top recipe-img">
+                <div class="card-body">
+                    <span class="badge recipe-badge mb-2">Healthy</span>
+                    <h5 class="card-title">Mediterranean Quinoa Salad</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="recipe-time"><i class="far fa-clock me-1"></i> 20 mins</span>
+                        <span><i class="fas fa-star" style="color: #FFD700;"></i> 4.7</span>
+                    </div>
+                    <p class="card-text">Fresh and nutritious quinoa salad with Mediterranean flavors and vegetables.</p>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-sm btn-cherry">View Recipe</button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn btn-cherry">View All Recipes</button>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="container my-5">
+    <h2 class="section-title">Browse by Category</h2>
+    <div class="row">
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-hamburger mb-3" style="font-size: 2rem;"></i>
+                <h5>Main Dishes</h5>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-cheese mb-3" style="font-size: 2rem;"></i>
+                <h5>Appetizers</h5>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-cookie mb-3" style="font-size: 2rem;"></i>
+                <h5>Desserts</h5>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-seedling mb-3" style="font-size: 2rem;"></i>
+                <h5>Vegetarian</h5>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-drumstick-bite mb-3" style="font-size: 2rem;"></i>
+                <h5>Chicken</h5>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-fish mb-3" style="font-size: 2rem;"></i>
+                <h5>Seafood</h5>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-bread-slice mb-3" style="font-size: 2rem;"></i>
+                <h5>Baking</h5>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="category-item">
+                <i class="fas fa-pepper-hot mb-3" style="font-size: 2rem;"></i>
+                <h5>Spicy</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="container my-5">
+    <h2 class="section-title">How Recipiz Works</h2>
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="p-4">
+                <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-4" style="width: 100px; height: 100px;">
+                    <i class="fas fa-search" style="font-size: 2.5rem; color: var(--primary-cherry);"></i>
+                </div>
+                <h4>Discover Recipes</h4>
+                <p>Browse through thousands of recipes or search for specific ingredients and dishes.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4">
+                <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-4" style="width: 100px; height: 100px;">
+                    <i class="fas fa-save" style="font-size: 2.5rem; color: var(--primary-cherry);"></i>
+                </div>
+                <h4>Save & Organize</h4>
+                <p>Save your favorite recipes and organize them into custom collections.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4">
+                <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-4" style="width: 100px; height: 100px;">
+                    <i class="fas fa-utensils" style="font-size: 2.5rem; color: var(--primary-cherry);"></i>
+                </div>
+                <h4>Cook & Share</h4>
+                <p>Follow step-by-step instructions and share your culinary creations with friends.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section">
+    <div class="container text-center">
+        <h2 style="color: var(--dark-cherry);">Get Weekly Recipe Inspiration</h2>
+        <p class="lead mb-4">Subscribe to our newsletter and never miss a delicious recipe!</p>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control form-control-lg" placeholder="Your email address">
+                    <button class="btn btn-cherry btn-lg" type="button">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h3 style="font-weight: 700; font-size: 1.8rem;">
+                    <i class="fas fa-utensils me-2"></i>Recipiz
+                </h3>
+                <p>Your personal recipe management system to discover, save, and organize all your favorite recipes in one place.</p>
+                <div class="social-icons">
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Recipes</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Categories</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">My Collection</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5>Categories</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Main Dishes</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Appetizers</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Desserts</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Vegetarian</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-4 mb-4">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-envelope me-2"></i> support@recipiz.com</li>
+                    <li class="mb-2"><i class="fas fa-phone me-2"></i> (123) 456-7890</li>
+                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 Cooking Street, Food City</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="mt-4 mb-4" style="background-color: #555;">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mb-0">&copy; 2023 Recipiz. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="text-white text-decoration-none me-3">Privacy Policy</a>
+                <a href="#" class="text-white text-decoration-none me-3">Terms of Service</a>
+                <a href="#" class="text-white text-decoration-none">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
