@@ -346,14 +346,14 @@
         <i class="fas fa-utensils me-2"></i>Recipiz
     </a>
 
-    <div class="search-container d-none d-md-block">
+    <form action="/index" method="get" class="search-container d-none d-md-block">
         <div class="input-group rounded-pill shadow-sm">
             <input type="text" name="keyword" class="form-control border-0 search-input" placeholder="Search recipes..." aria-label="Search">
             <button type="submit" class="btn btn-cherry px-2 rounded-end">
                 <i class="fas fa-search"></i>
             </button>
         </div>
-    </div>
+    </form>
 
     <div class="profile-icon">
         <i class="fas fa-user"></i>
@@ -375,7 +375,7 @@
         <span class="icon-text">Favorites</span>
     </a>
     <a href="#">
-        <i class="material-icons">assistant_on_hub</i>
+        <i class="material-icons">live_help</i>
         <span class="icon-text">Ask Ai</span>
     </a>
     <a href="#">
@@ -511,14 +511,14 @@
                         <i class="far fa-clock me-1"></i>
                         <span th:text="${recipe.cookingTime}+' mins'">45 mins</span>
                     </span>
-                                <!--                            <span>-->
-                                <!--                        <i class="fas fa-star" style="color: #FFD700;"></i>-->
-                                <!--                        <span th:text="${recipe.rating != null ? recipe.rating : '4.9'}">4.9</span>-->
-                                <!--                    </span>-->
+                                                            <span>
+                                                        <i class="fas fa-star" style="color: #FFD700;"></i>
+                                                        <span th:text="${recipe.averageRating != null ? recipe.averageRating : '0.0'}">4.9</span>
+                                                    </span>
                             </div>
                             <p class="card-text" th:text="${recipe.description}">Description...</p>
                             <div class="d-flex justify-content-between">
-                                <button class="btn btn-sm btn-cherry">View Recipe</button>
+                                <a class="btn btn-sm btn-cherry" th:href="@{|/recipe/${recipe.id}|}">View Recipe</a>
                                 <a th:href="@{|/favorite/${recipe.id}|}" class="btn btn-sm btn-outline-secondary" th:classappend="${recipe.favorite} ? ' fas text-danger' : ' far text-dark'">
                                     <i class="fa-solid fa-heart"></i>
                                 </a>

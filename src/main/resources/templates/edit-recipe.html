@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Recipe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-cherry: #B71C1C;
+            --dark-cherry: #7F0000;
+            --light-cherry: #FFCDD2;
+            --accent-cherry: #D32F2F;
+            --cherry-bg: #FFF5F5;
+            --cherry-form-bg: #FFF9F9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cherry-bg);
+            color: #333;
+            padding: 30px;
+        }
+
+        h1 {
+            color: var(--primary-cherry);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .form-container {
+            background-color: var(--cherry-form-bg);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 4px 15px rgba(183, 28, 28, 0.15);
+            /*border-left: 5px solid var(--primary-cherry);*/
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--dark-cherry);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-cherry);
+            box-shadow: 0 0 0 0.2rem rgba(183, 28, 28, 0.25);
+        }
+
+        .btn-cherry {
+            background-color: var(--primary-cherry);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .btn-cherry:hover {
+            background-color: var(--dark-cherry);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary-cherry);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--dark-cherry);
+            text-decoration: underline;
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .form-header i {
+            font-size: 24px;
+            color: var(--primary-cherry);
+            margin-right: 10px;
+        }
+
+        .form-header h2 {
+            margin: 0;
+            color: var(--primary-cherry);
+            font-size: 1.5rem;
+        }
+
+        .form-file {
+            padding: 8px;
+        }
+
+        .form-text {
+            color: var(--accent-cherry);
+            font-size: 0.85rem;
+            margin-top: -15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><i class="fas fa-utensils me-2"></i>Edit Your Recipe</h1>
+
+    <div class="form-container">
+        <div class="form-header">
+
+            <h2>Recipe Details</h2>
+        </div>
+
+        <form action="/add" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Simple description:</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Category:</label>
+                <select class="form-select" id="category" name="category" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                    <option value="Dessert">Dessert</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="ingredients" class="form-label">Ingredients:</label>
+                <textarea class="form-control" id="ingredients" name="ingredients" rows="5" required
+                          placeholder="Enter each ingredient on a new line"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="steps" class="form-label">Steps:</label>
+                <textarea class="form-control" id="steps" name="steps" rows="5" required
+                          placeholder="Enter each step on a new line"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="imageUrl" class="form-label">Image:</label>
+                <input type="file" class="form-control form-file" id="imageUrl" name="imageUrl" accept="image/*">
+                <div class="form-text">Upload a clear image of your finished recipe</div>
+            </div>
+
+            <div class="mb-4">
+                <label for="cookingTime" class="form-label">Cooking time (minutes):</label>
+                <input type="number" class="form-control" id="cookingTime" name="cookingTime" min="1" required>
+            </div>
+
+            <button type="submit" class="btn btn-cherry">
+                <i class="fas fa-save me-2"></i>Save Recipe
+            </button>
+        </form>
+    </div>
+
+    <a href="/" class="back-link">
+        <i class="fas fa-arrow-left me-1"></i> Back to Home
+    </a>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

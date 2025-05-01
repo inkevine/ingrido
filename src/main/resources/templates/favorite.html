@@ -302,7 +302,7 @@
 
 <!-- Sidebar -->
 <div id="mySidebar" class="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
-    <a href="#">
+    <a href="/index">
         <i class="material-icons">dashboard</i>
         <span class="icon-text">Dashboard</span>
     </a>
@@ -331,21 +331,21 @@
             <div class="col-9">
                 <h2 class="fs-5">My Favorite recipes</h2>
             </div>
-            <div class="col-3">
-                <form action="/index" method="get" class="d-flex">
-                    <select name="category" class="form-select cherry-select me-2 py-1">
-                        <option value="">All Categories</option>
-                        <option value="Breakfast">Breakfast</option>
-                        <option value="Lunch">Lunch</option>
-                        <option value="Dinner">Dinner</option>
-                        <option value="Snack">Snack</option>
-                        <option value="Dessert">Dessert</option>
-                    </select>
-                    <button type="submit" class="btn btn-cherry">
-                        Filter
-                    </button>
-                </form>
-            </div>
+<!--            <div class="col-3">-->
+<!--                <form action="/index" method="get" class="d-flex">-->
+<!--                    <select name="category" class="form-select cherry-select me-2 py-1">-->
+<!--                        <option value="">All Categories</option>-->
+<!--                        <option value="Breakfast">Breakfast</option>-->
+<!--                        <option value="Lunch">Lunch</option>-->
+<!--                        <option value="Dinner">Dinner</option>-->
+<!--                        <option value="Snack">Snack</option>-->
+<!--                        <option value="Dessert">Dessert</option>-->
+<!--                    </select>-->
+<!--                    <button type="submit" class="btn btn-cherry">-->
+<!--                        Filter-->
+<!--                    </button>-->
+<!--                </form>-->
+<!--            </div>-->
 
         </div>
         <section class="container my-5">
@@ -368,10 +368,10 @@
                         <i class="far fa-clock me-1"></i>
                         <span th:text="${recipe.cookingTime}+' mins'">45 mins</span>
                     </span>
-                                <!--                            <span>-->
-                                <!--                        <i class="fas fa-star" style="color: #FFD700;"></i>-->
-                                <!--                        <span th:text="${recipe.rating != null ? recipe.rating : '4.9'}">4.9</span>-->
-                                <!--                    </span>-->
+                                                    <span>
+                                                        <i class="fas fa-star" style="color: #FFD700;"></i>
+                                                        <span th:text="${recipe.averageRating != null ? recipe.averageRating : '0.0'}">4.9</span>
+                                                    </span>
                             </div>
                             <p class="card-text" th:text="${recipe.description}">Description...</p>
                             <div class="d-flex justify-content-between">

@@ -91,4 +91,39 @@ public class RecipeController {
         model.addAttribute("recipes", recipeService.getFavoriteRecipes());
         return "favorite";
     }
+
+    @GetMapping("/recipe/{id}")
+    public String viewRecipe(@PathVariable Long id, Model model) {
+        Recipe recipe = recipeService.getRecipeById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid recipe Id:" + id));
+
+        // Add the average rating to the recipe object
+        double averageRating = recipeService.getAverageRating(recipe);
+        recipe.setAverageRating(averageRating);
+
+        model.addAttribute("recipe", recipe);
+        return "view-recipe";
+    }
+
+    @PostMapping("/recipe/{id}/rate")
+    public String rateRecipe(@PathVariable Long id,
+                             @RequestParam int rating,
+                             @RequestParam String review) {
+        try {
+            // Validate rating
+            if (rating < 1 || rating > 5) {
+                throw new IllegalArgumentException("Rating must be between 1 and 5");
+            }
+
+            recipeService.addRating(id, rating, review);
+            return "redirect:/recipe/" + id;
+        } catch (Exception e) {
+            // Log the error
+            System.err.println("Error adding rating: " + e.getMessage());
+
+            return "redirect:/recipe/" + id;
+        }
+    }
+
+
 }
