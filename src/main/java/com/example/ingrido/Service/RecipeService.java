@@ -87,5 +87,9 @@ public class RecipeService {
                 .orElse(0.0);
     }
 
+    public void deleteRecipe(Long id) {
+        recipeRepository.deleteById(id);
+    }
+
 
 }

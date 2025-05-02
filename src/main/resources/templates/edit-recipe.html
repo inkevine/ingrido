@@ -39,7 +39,7 @@
             max-width: 700px;
             margin: auto;
             box-shadow: 0 4px 15px rgba(183, 28, 28, 0.15);
-            /*border-left: 5px solid var(--primary-cherry);*/
+            border-left: 5px solid var(--primary-cherry);
         }
 
         label {
@@ -127,25 +127,21 @@
     <h1><i class="fas fa-utensils me-2"></i>Edit Your Recipe</h1>
 
     <div class="form-container">
-        <div class="form-header">
 
-            <h2>Recipe Details</h2>
-        </div>
-
-        <form action="/add" method="post" enctype="multipart/form-data">
+        <form th:action="@{'/update/' + ${recipe.id}}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
-                <input type="text" class="form-control" id="title" name="title" required>
+                <input type="text" class="form-control" id="title" name="title" required th:value="${recipe.title}">
             </div>
 
             <div class="mb-3">
                 <label for="description" class="form-label">Simple description:</label>
-                <input type="text" class="form-control" id="description" name="description" required>
+                <input type="text" class="form-control" id="description" name="description" required th:value="${recipe.description}">
             </div>
 
             <div class="mb-3">
                 <label for="category" class="form-label">Category:</label>
-                <select class="form-select" id="category" name="category" required>
+                <select class="form-select" id="category" name="category" required th:value="${recipe.category}">
                     <option value="">-- Select Category --</option>
                     <option value="Breakfast">Breakfast</option>
                     <option value="Lunch">Lunch</option>
@@ -158,33 +154,33 @@
             <div class="mb-3">
                 <label for="ingredients" class="form-label">Ingredients:</label>
                 <textarea class="form-control" id="ingredients" name="ingredients" rows="5" required
-                          placeholder="Enter each ingredient on a new line"></textarea>
+                          placeholder="Enter each ingredient on a new line" th:text="${recipe.ingredients}"></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="steps" class="form-label">Steps:</label>
                 <textarea class="form-control" id="steps" name="steps" rows="5" required
-                          placeholder="Enter each step on a new line"></textarea>
+                          placeholder="Enter each step on a new line" th:text="${recipe.steps}"></textarea>
             </div>
 
-            <div class="mb-3">
-                <label for="imageUrl" class="form-label">Image:</label>
-                <input type="file" class="form-control form-file" id="imageUrl" name="imageUrl" accept="image/*">
-                <div class="form-text">Upload a clear image of your finished recipe</div>
-            </div>
+<!--            <div class="mb-3">-->
+<!--                <label for="imageUrl" class="form-label">Image:</label>-->
+<!--                <input type="file" class="form-control form-file" id="imageUrl" name="imageUrl" accept="image/*" th:value="${recipe.imageUrl}">-->
+<!--                <div class="form-text">Upload a clear image of your finished recipe</div>-->
+<!--            </div>-->
 
             <div class="mb-4">
                 <label for="cookingTime" class="form-label">Cooking time (minutes):</label>
-                <input type="number" class="form-control" id="cookingTime" name="cookingTime" min="1" required>
+                <input type="number" class="form-control" id="cookingTime" name="cookingTime" min="1" required th:value="${recipe.cookingTime}">
             </div>
 
             <button type="submit" class="btn btn-cherry">
-                <i class="fas fa-save me-2"></i>Save Recipe
+                <i class="fas fa-save me-2"></i>Save Changes
             </button>
         </form>
     </div>
 
-    <a href="/" class="back-link">
+    <a href="/recipe/${recipe.id}" class="back-link">
         <i class="fas fa-arrow-left me-1"></i> Back to Home
     </a>
 </div>

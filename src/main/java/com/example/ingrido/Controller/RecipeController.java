@@ -1,16 +1,15 @@
 package com.example.ingrido.Controller;
 
 import com.example.ingrido.Model.Recipe;
+import com.example.ingrido.Service.ChatGPTService;
 import com.example.ingrido.Service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -124,6 +123,58 @@ public class RecipeController {
             return "redirect:/recipe/" + id;
         }
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteRecipe(@PathVariable Long id) {
+        recipeService.deleteRecipe(id);
+        return "redirect:/index";
+    }
+
+    @Autowired
+    private ChatGPTService chatGPTService;
+
+    @GetMapping("/assistant")
+    public String assistantPage() {
+        return "assistant";
+    }
+
+    @PostMapping("/assistant")
+    public String askAssistant(@RequestParam("question") String question, Model model) {
+        String answer = chatGPTService.askGroq(question);
+        model.addAttribute("question", question);
+        model.addAttribute("answer", answer);
+        return "assistant";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Recipe recipe = recipeService.getRecipeById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid recipe Id:" + id));
+        model.addAttribute("recipe", recipe);
+        return "edit-recipe";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateRecipe(@PathVariable Long id, @ModelAttribute Recipe updatedRecipe) {
+        Recipe existingRecipe = recipeService.getRecipeById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid recipe Id:" + id));
+
+        existingRecipe.setTitle(updatedRecipe.getTitle());
+        existingRecipe.setDescription(updatedRecipe.getDescription());
+        existingRecipe.setCategory(updatedRecipe.getCategory());
+        existingRecipe.setIngredients(updatedRecipe.getIngredients());
+        existingRecipe.setSteps(updatedRecipe.getSteps());
+        existingRecipe.setCookingTime(updatedRecipe.getCookingTime());
+
+        // Notice: we are not touching existingRecipe.setImageUrl(...)
+        // so the original image stays as is
+
+        recipeService.saveRecipe(existingRecipe);
+        return "redirect:/recipe/" + id;
+    }
+
+
+
 
 
 }

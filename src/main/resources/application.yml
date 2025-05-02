@@ -19,3 +19,7 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
     show-sql: true
+
+groq:
+  api:
+    key: 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
