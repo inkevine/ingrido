@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipiz Settings</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-cherry: #B71C1C;
+            --dark-cherry: #7F0000;
+            --light-cherry: #F8F0F1;
+            --accent-cherry: #D32F2F;
+            --border-light: #e0e0e0;
+            --text-dark: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* background-color: #F8F9FA; */
+        }
+
+        /* Top Navbar Styles */
+        .top-navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .brand-name {
+            color: var(--primary-cherry);
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-decoration: none;
+        }
+
+        .brand-name:hover {
+            color: var(--dark-cherry);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .search-input {
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-cherry);
+            box-shadow: 0 0 0 0.2rem rgba(183, 28, 28, 0.25);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-cherry);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-cherry);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .profile-icon:hover {
+            background-color: var(--primary-cherry);
+            color: white;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            height: 100%;
+            width: 60px;
+            position: fixed;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            background-color: white;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 20px;
+            white-space: nowrap;
+            border-right: 1px solid var(--border-light);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar a {
+            padding: 12px 15px;
+            text-decoration: none;
+            font-size: 16px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            transition: 0.2s;
+            margin-bottom: 5px;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar a:hover {
+            background-color: var(--light-cherry);
+            color: var(--primary-cherry);
+            border-left: 3px solid var(--primary-cherry);
+        }
+
+        .sidebar a.active {
+            background-color: var(--light-cherry);
+            color: var(--primary-cherry);
+            border-left: 3px solid var(--primary-cherry);
+        }
+
+        .sidebar i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .icon-text {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.expanded .icon-text {
+            opacity: 1;
+        }
+
+        .sidebar-header {
+            padding: 0 15px 20px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 15px;
+        }
+
+        .sidebar-header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-cherry);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.expanded .sidebar-header .logo {
+            opacity: 1;
+        }
+
+        .sidebar-header .logo-icon {
+            font-size: 24px;
+            color: var(--primary-cherry);
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 20px;
+            margin-left: 60px; /* Adjusted to match sidebar width */
+            margin-top: 60px; /* Adjusted to account for navbar height */
+        }
+
+        /* Card Styles */
+        .content-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-card h2 {
+            color: var(--primary-cherry);
+            margin-bottom: 15px;
+        }
+
+        /* Settings Specific Styles */
+        .settings-section {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 20px;
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .settings-header i {
+            color: var(--primary-cherry);
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .settings-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-cherry);
+            border-color: var(--primary-cherry);
+        }
+
+        .form-range::-webkit-slider-thumb {
+            background: var(--primary-cherry);
+        }
+
+        .form-range::-moz-range-thumb {
+            background: var(--primary-cherry);
+        }
+
+        .form-range::-ms-thumb {
+            background: var(--primary-cherry);
+        }
+
+        .btn-cherry {
+            background-color: var(--primary-cherry);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .btn-cherry:hover {
+            background-color: var(--dark-cherry);
+            color: white;
+        }
+
+        .btn-outline-cherry {
+            color: var(--primary-cherry);
+            background-color: transparent;
+            border: 1px solid var(--primary-cherry);
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .btn-outline-cherry:hover {
+            background-color: var(--primary-cherry);
+            color: white;
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .theme-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-cherry {
+            background-color: var(--primary-cherry);
+        }
+
+        .theme-dark {
+            background-color: #212529;
+        }
+
+        .theme-blue {
+            background-color: #0d6efd;
+        }
+
+        .theme-green {
+            background-color: #198754;
+        }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--light-cherry);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-cherry);
+            font-size: 40px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .search-container {
+                max-width: 200px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 200;
+                background-color: var(--primary-cherry);
+                color: white;
+                border: none;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar.mobile-expanded {
+                width: 220px;
+            }
+
+            .sidebar.mobile-expanded .icon-text,
+            .sidebar.mobile-expanded .sidebar-header .logo {
+                opacity: 1;
+            }
+
+            .recip-log {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Menu Toggle (visible on small screens) -->
+<button class="mobile-menu-toggle" onclick="toggleMobileSidebar()" style="display: none;">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
+    <div class="sidebar-header">
+        <i class="fas fa-utensils logo-icon"></i>
+        <span class="logo">Recipiz</span>
+    </div>
+    <a href="/index">
+        <i class="material-icons">dashboard</i>
+        <span class="icon-text">Dashboard</span>
+    </a>
+    <a href="#">
+        <i class="material-icons">restaurant_menu</i>
+        <span class="icon-text">My Recipes</span>
+    </a>
+    <a href="/favorites">
+        <i class="material-icons">favorite</i>
+        <span class="icon-text">Favorites</span>
+    </a>
+    <a href="/assistant">
+        <i class="material-icons">live_help</i>
+        <span class="icon-text">Ask AI</span>
+    </a>
+    <a href="#" class="active">
+        <i class="material-icons">settings</i>
+        <span class="icon-text">Settings</span>
+    </a>
+</div>
+
+<!-- Main Content -->
+<div id="main">
+    <div class="content-card">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="fs-4">Settings</h2>
+                <p class="text-muted">Manage your account settings and preferences</p>
+            </div>
+        </div>
+
+        <!-- Account Settings Section -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i class="material-icons">account_circle</i>
+                <h3>Account Settings</h3>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-3 mb-3">
+                    <div class="avatar-preview">
+                        <img src="https://via.placeholder.com/100" alt="Profile Picture">
+                    </div>
+                    <h6 class="btn btn-outline-cherry btn-sm">Edit Profile</h6>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="firstName" value="John">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" value="john.doe@example.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Notification Settings -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i class="material-icons">notifications</i>
+                <h3>Notification Settings</h3>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                        <label class="form-check-label" for="emailNotifications">Email Notifications</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
+                        <label class="form-check-label" for="pushNotifications">Push Notifications</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="weeklyDigest" checked>
+                        <label class="form-check-label" for="weeklyDigest">Weekly Recipe Digest</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="newFeatures">
+                        <label class="form-check-label" for="newFeatures">New Features Announcements</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card bg-light p-3">
+                        <h5 class="mb-3">Notification Types</h5>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="newRecipes" checked>
+                            <label class="form-check-label" for="newRecipes">New Recipe Recommendations</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="comments" checked>
+                            <label class="form-check-label" for="comments">Comments on Your Recipes</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="likes" checked>
+                            <label class="form-check-label" for="likes">Likes on Your Recipes</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="followers">
+                            <label class="form-check-label" for="followers">New Followers</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Settings -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i class="material-icons">palette</i>
+                <h3>Theme Settings</h3>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-3 mb-3">
+                    <div class="theme-preview theme-cherry active">
+                        Cherry (Default)
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="themeOptions" id="themeCherry" value="Cherry" checked>
+                        <label class="form-check-label" for="themeCherry">Cherry Theme</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <div class="theme-preview theme-dark">
+                        Dark
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="themeOptions" id="themeDark" value="dark">
+                        <label class="form-check-label" for="themeDark">Dark Theme</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <div class="theme-preview theme-blue">
+                        Blue
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="themeOptions" id="themeBlue" value="blue">
+                        <label class="form-check-label" for="themeBlue">Blue Theme</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <div class="theme-preview theme-green">
+                        Green
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="themeOptions" id="themeGreen" value="green">
+                        <label class="form-check-label" for="themeGreen">Green Theme</label>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="darkMode">
+                        <label class="form-check-label" for="darkMode">Dark Mode</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy & Data -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i class="material-icons">security</i>
+                <h3>Privacy & Data</h3>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="publicProfile" checked>
+                        <label class="form-check-label" for="publicProfile">Public Profile</label>
+                        <div class="form-text">Allow others to view your profile and recipes</div>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="shareActivity" checked>
+                        <label class="form-check-label" for="shareActivity">Share Activity</label>
+                        <div class="form-text">Share your cooking activity with followers</div>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="dataCollection" checked>
+                        <label class="form-check-label" for="dataCollection">Data Collection</label>
+                        <div class="form-text">Allow us to collect usage data to improve your experience</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-cherry">Download My Data</button>
+                        <button class="btn btn-outline-cherry">Privacy Policy</button>
+                        <button class="btn btn-outline-cherry">Terms of Service</button>
+                        <button class="btn btn-outline-danger">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="row mt-4">
+            <div class="col-12 text-end">
+                <a class="btn btn-cherry" href="/">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function checkMobile() {
+        if (window.innerWidth <= 768) {
+            document.querySelector('.mobile-menu-toggle').style.display = 'flex';
+            document.getElementById('sidebar').classList.remove('expanded');
+            document.getElementById('sidebar').style.width = '0';
+        } else {
+            document.querySelector('.mobile-menu-toggle').style.display = 'none';
+            document.getElementById('sidebar').style.width = '60px';
+        }
+    }
+
+    // Run on page load
+    window.onload = checkMobile;
+
+    // Run when window is resized
+    window.onresize = checkMobile;
+
+    function expandSidebar() {
+        if (window.innerWidth > 768) {
+            document.getElementById('sidebar').style.width = '220px';
+            document.getElementById('sidebar').classList.add('expanded');
+        }
+    }
+
+    function collapseSidebar() {
+        if (window.innerWidth > 768) {
+            document.getElementById('sidebar').style.width = '60px';
+            document.getElementById('sidebar').classList.remove('expanded');
+        }
+    }
+
+    function toggleMobileSidebar() {
+        if (document.getElementById('sidebar').classList.contains('mobile-expanded')) {
+            document.getElementById('sidebar').classList.remove('mobile-expanded');
+            document.getElementById('sidebar').style.width = '0';
+        } else {
+            document.getElementById('sidebar').classList.add('mobile-expanded');
+            document.getElementById('sidebar').style.width = '220px';
+        }
+    }
+
+    const themes = {
+        cherry: "#F8F9FA",
+        dark: "#212529",
+        blue: "#96b2e7",
+        green: "#9cf49c"
+    };
+
+    const body = document.body;
+    const radios = document.querySelectorAll('input[name="themeOptions"]');
+
+    function applyTheme(themeKey) {
+        const bgColor = themes[themeKey.toLowerCase()];
+        if (bgColor) {
+            body.style.backgroundColor = bgColor;
+            localStorage.setItem("selectedTheme", themeKey.toLowerCase());
+        }
+    }
+
+    radios.forEach(radio => {
+        radio.addEventListener("change", () => {
+            if (radio.checked) {
+                applyTheme(radio.value);
+            }
+        });
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem("selectedTheme");
+    if (savedTheme && themes[savedTheme]) {
+        document.body.style.backgroundColor = themes[savedTheme];
+        const radioToCheck = document.querySelector(`input[name="themeOptions"][value="${savedTheme}"]`);
+        if (radioToCheck) radioToCheck.checked = true;
+    }
+</script>
+</body>
+</html>

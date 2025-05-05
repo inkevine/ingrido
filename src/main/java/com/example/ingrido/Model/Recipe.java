@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 public class Recipe {
     @Id
@@ -14,15 +15,6 @@ public class Recipe {
     private String title;
 
     private String description;  // For 'desc' field in form
-
-
-    private String category;
-
-    @Lob
-    private String ingredients;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> steps = new ArrayList<>();
 
     private int cookingTime; // For 'time' field in form
 
@@ -37,6 +29,18 @@ public class Recipe {
     private List<String> reviews = new ArrayList<>();
 
     private double averageRating;
+
+    @ManyToOne
+    private MyAppUser user; // The person who created it
+
+    @ManyToOne
+    private Category category;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Step> steps = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     // --- Getters and Setters ---
 

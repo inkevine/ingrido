@@ -449,7 +449,7 @@
         <i class="material-icons">dashboard</i>
         <span class="icon-text">Dashboard</span>
     </a>
-    <a href="/myrecipes">
+    <a href="#">
         <i class="material-icons">restaurant_menu</i>
         <span class="icon-text">My Recipes</span>
     </a>
@@ -461,7 +461,7 @@
         <i class="material-icons">live_help</i>
         <span class="icon-text">Ask Ai</span>
     </a>
-    <a href="#">
+    <a href="/profile">
         <i class="material-icons">settings</i>
         <span class="icon-text">Settings</span>
     </a>
@@ -556,7 +556,7 @@
     <div class="content-card">
         <div class="row">
             <div class="col-9">
-                <h2 class="fs-5">Recent Recipes</h2>
+                <h2 class="fs-5">Your Recipes</h2>
             </div>
             <div class="col-3">
                 <form action="/index" method="get" class="d-flex">
@@ -609,20 +609,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-center py-5" th:if="${#lists.isEmpty(recipes)}">
-                        <div class="mb-4">
-                            <i class="fas fa-book text-muted" style="font-size: 5rem;"></i>
-                        </div>
-                        <h3 class="text-muted">No recipes found</h3>
-                        <p class="text-muted mb-4">Start adding your favorite recipes!</p>
-                        <a href="/add" class="btn btn-lg btn-add">
-                            <i class="fas fa-plus me-2"></i> Add Your First Recipe
-                        </a>
-                    </div>
                 </div>
             </div>
             <div class="text-center mt-4">
-                <button class="btn btn-cherry">View All Recipes</button>
+                <a class="btn btn-cherry" href="/add">Add Recipes</a>
+            </div>
+
+            <div class="text-center py-5" th:if="${#lists.isEmpty(recipes)}">
+                <div class="mb-4">
+                    <i class="fas fa-book text-muted" style="font-size: 5rem;"></i>
+                </div>
+                <h3 class="text-muted">No recipes found</h3>
+                <p class="text-muted mb-4">Start adding your favorite recipes!</p>
+                <a href="/add" class="btn btn-cherry">
+                    <i class="fas fa-plus me-2"></i> Add Your First Recipe
+                </a>
             </div>
 
         </section>

@@ -4,6 +4,7 @@ package com.example.ingrido.Service;
 import java.util.Optional;
 
 import com.example.ingrido.Model.MyAppUser;
+import com.example.ingrido.Model.Recipe;
 import com.example.ingrido.Repository.MyAppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;

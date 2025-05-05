@@ -1,8 +1,8 @@
 package com.example.ingrido.Controller;
 
-import com.example.ingrido.Model.Recipe;
-import com.example.ingrido.Service.ChatGPTService;
-import com.example.ingrido.Service.RecipeService;
+//import com.example.ingrido.Model.Recipe;
+//import com.example.ingrido.Service.ChatGPTService;
+//import com.example.ingrido.Service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +21,10 @@ public class RecipeController {
     private RecipeService recipeService;
 
 
-    @GetMapping("/myrecipes")
-    public String myRecipes(Model model) {
-        return "myrecipes";
-    }
+//    @GetMapping("/myrecipes")
+//    public String myRecipes(Model model) {
+//        return "myrecipes";
+//    }
 
 
     @GetMapping("/add")

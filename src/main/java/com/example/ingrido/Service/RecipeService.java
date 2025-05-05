@@ -1,5 +1,6 @@
 package com.example.ingrido.Service;
 
+import com.example.ingrido.Model.MyAppUser;
 import com.example.ingrido.Model.Recipe;
 import com.example.ingrido.Repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,8 @@ public class RecipeService {
     public void deleteRecipe(Long id) {
         recipeRepository.deleteById(id);
     }
+
+
 
 
 }

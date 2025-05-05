@@ -11,5 +11,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findByCategory(String category);
     List<Recipe> findByFavoriteTrue();
     List<Recipe> findTop3ByOrderByIdAsc();
+    List<Recipe> findByUserId(Long userId);
 
 }

@@ -1,17 +1,22 @@
 package com.example.ingrido.Controller;
 
+import com.example.ingrido.Model.MyAppUser;
+import com.example.ingrido.Model.Recipe;
+import com.example.ingrido.Service.MyAppUserService;
 import com.example.ingrido.Service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ContentController {
 
     @Autowired
     private RecipeService recipeService;
+    @Autowired
+    private MyAppUserService myAppUserService;
 
     @GetMapping("/")
     public String index() {
@@ -36,9 +41,15 @@ public class ContentController {
         } else if (category != null && !category.isEmpty()) {
             model.addAttribute("recipes", recipeService.filterByCategory(category));
         } else {
-            model.addAttribute("recipes", recipeService.getSomeRecipes());
+            model.addAttribute("recipes", recipeService.getAllRecipes());
         }
         return "index";
     }
+
+        @GetMapping("/profile")
+    public String myProfile(Model model) {
+        return "profile";
+    }
+
 
 }
