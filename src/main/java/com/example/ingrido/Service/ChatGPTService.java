@@ -9,8 +9,7 @@ import java.util.*;
 @Service
 public class ChatGPTService {
 
-    @Value("${groq.api.key}")
-    private String apiKey; // Using Groq API Key
+    private final String apiKey = "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";
 
     private final String endpoint = "https://api.groq.com/openai/v1/chat/completions"; // Groq API endpoint
 
